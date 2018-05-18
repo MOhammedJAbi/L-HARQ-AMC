@@ -1,0 +1,56 @@
+clear;
+clc;
+
+% rate set
+R_set=[0.75:0.75:3.75];
+L=length(R_set);
+% decay value, used in PER exoression
+a=4;
+% decoding threshold, used in PER expression 
+snrth=@(R) 2.^R-1;
+snrth_set=snrth(R_set)
+% optimal threshold, 
+gamma=@(l) snrth(R_set(l)).*(1+log(R_set(l)./(R_set(l)-R_set(l-1)))./a);
+% SNR in dB
+SNRdB=[-5:30];
+% SNR pdf, av_snr=channel average SNR
+ppd_snr=@(x,av_snr) exp(-x./av_snr)./av_snr;
+% SNR cdf
+cdf_snr=@(x,av_snr) 1-exp(-x./av_snr);
+% PER average
+
+
+
+%% Computation of optimal thresholds, R_l \in[gamma(l),gamma(l+1)[
+gamma_op(1)=0;
+for l=2:L
+    gamma_op(l)=gamma(l);
+end
+gamma_op(L+1)=100
+
+%% Computation of throughput
+for ind_snr=1:length(SNRdB)
+    snr=10.^(SNRdB(ind_snr)./10);
+    % probability of being in [gamma(l) gamma(l+1)]
+    p_l=0;
+    for l=1:L-1
+        p_l(l)=cdf_snr(gamma_op(l+1),snr)-cdf_snr(gamma_op(l),snr);
+    end
+    p_l(L)=1-sum(p_l)
+    % probability of decoding error when being in [gamma(l) gamma(l+1)]
+    for l=1:L
+        l_l(l)=cdf_snr(gamma_op(l+1),snr)-cdf_snr(gamma_op(l),snr);
+    end
+    
+    
+    
+    
+    
+end
+
+
+
+
+
+
+

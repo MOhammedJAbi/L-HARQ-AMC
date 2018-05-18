@@ -1,0 +1,1 @@
+Implementation of Layer-Coded Hybrid Automatic Repeat reQuest protocol proposed in: M. Jabi, L. Szczecinski, M. Benjillali, A. Benyouss, and B. Pelletier, “AMC and HARQ: How to Increase the Throughput", IEEE Transactions on Communications, Feb. 2018. "https://arxiv.org/abs/1802.06933"
